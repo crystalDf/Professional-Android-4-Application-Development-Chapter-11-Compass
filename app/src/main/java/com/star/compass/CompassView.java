@@ -19,7 +19,7 @@ import android.view.accessibility.AccessibilityEvent;
 
 public class CompassView extends View {
 
-    private float bearing;
+    private float mBearing;
 
     private Paint mMarkerPaint;
     private Paint mTextPaint;
@@ -67,11 +67,11 @@ public class CompassView extends View {
     }
 
     public float getBearing() {
-        return bearing;
+        return mBearing;
     }
 
     public void setBearing(float bearing) {
-        this.bearing = bearing;
+        this.mBearing = bearing;
         sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED);
     }
 
@@ -352,7 +352,7 @@ public class CompassView extends View {
 
         canvas.save();
 
-        canvas.rotate(bearing * (-1), px, py);
+        canvas.rotate(mBearing * (-1), px, py);
 
         double increment = 22.5;
 
@@ -399,7 +399,7 @@ public class CompassView extends View {
         super.dispatchPopulateAccessibilityEvent(event);
 
         if (isShown()) {
-            String bearingStr = bearing + "";
+            String bearingStr = mBearing + "";
             event.getText().add(bearingStr);
 
             return true;
