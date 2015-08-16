@@ -66,6 +66,15 @@ public class CompassView extends View {
         initCompassView();
     }
 
+    public float getBearing() {
+        return bearing;
+    }
+
+    public void setBearing(float bearing) {
+        this.bearing = bearing;
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED);
+    }
+
     public float getPitch() {
         return mPitch;
     }
@@ -276,7 +285,7 @@ public class CompassView extends View {
 
         float pxPerDegree = (innerBoundingBox.height() / 2) / 45f;
 
-        for (int i = 90; i > -90; i -= 10) {
+        for (int i = 90; i >= -90; i -= 10) {
             double yPos = justTiltY + i * pxPerDegree;
 
             if (yPos >= (innerBoundingBox.top + mTextHeight) &&
@@ -298,6 +307,8 @@ public class CompassView extends View {
 
         canvas.drawLine(center.x - radius / 2, (float) justTiltY,
                 center.x + radius / 2, (float) justTiltY, mMarkerPaint);
+
+        mMarkerPaint.setStrokeWidth(1);
 
         Path rollArrow = new Path();
         rollArrow.moveTo(center.x - 3, innerBoundingBox.top + 14);
@@ -364,7 +375,7 @@ public class CompassView extends View {
                         center.x, boundingBox.top + 3, mMarkerPaint);
             }
 
-            canvas.rotate((float) increment, center.x, center.y);
+            canvas.rotate((int) increment, center.x, center.y);
         }
 
         canvas.restore();
@@ -381,15 +392,6 @@ public class CompassView extends View {
 
         mCirclePaint.setStrokeWidth(2);
         canvas.drawOval(innerBoundingBox, mCirclePaint);
-    }
-
-    public float getBearing() {
-        return bearing;
-    }
-
-    public void setBearing(float bearing) {
-        this.bearing = bearing;
-        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED);
     }
 
     @Override
